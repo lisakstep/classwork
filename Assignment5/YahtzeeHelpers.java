@@ -137,11 +137,13 @@ public class YahtzeeHelpers extends ConsoleProgram implements YahtzeeConstants{
 		BufferedReader rd = null;
 		try {
 			rd = new BufferedReader(new FileReader("HighScores"));
+			System.out.println("High Scores\n");
 
-			while (rd == null) {
+			while (rd != null) {
 
 				String line = rd.readLine();
 				if (line == null) break;
+
 				System.out.println(line);
 			}
 			rd.close();
