@@ -58,8 +58,7 @@ public class NameCounts extends ConsoleProgram {
 			// If the name is already in the HashMap, add 1 to the count
 			Integer count = names.get(name);
 			count++;
-			// Remove the old entry and replace it with the same name and the updated count
-			names.remove(name);
+			// Replace the old entry with the same name and the updated count
 			names.put(name, count);
 		}
 	}
