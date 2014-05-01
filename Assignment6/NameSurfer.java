@@ -18,13 +18,44 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	 */
 	public void init() {
 		// You fill this in, along with any helper methods //
+		// Read the data text file and load up the local database
+		initData();
+		
+		
+		
+		// Create the labels and the textbox
 		addNameLabel();
 		addNameBox();
 		addGraphButton();
 		addClearButton();
+		
 		//add ActionListeners();
+		// Set up the graph object
+		graph = new NameSurferGraph();
+		add(graph);
+
 	}
-	
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		namesInfo = new NameSurferDataBase(fileName);
+		
+		/* temp testin code
+		String testName = "Tabitha";
+		int testDecade = 6;
+		if (namesInfo.findEntry(testName) != null ) {
+			println("Name " + testName + " exists.");
+
+			println(namesInfo.findEntry(testName).toString());
+			println(namesInfo.findEntry(testName).getRank(testDecade));
+		}
+		else {
+			println("Name " + testName + " doesn't exist.");
+
+		}
+		*/
+	}
+
 	/* Method: actionPerformed(e) */
 	/**
 	 * This class is responsible for detecting when the buttons are
@@ -34,21 +65,47 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	public void actionPerformed(ActionEvent e) {
 		// You fill this in //
 		if (e.getSource() == clearButton) {
-			println("clear");
+			graph.clear();
 		}
 		else if (e.getSource() == graphButton) {
-			println("Graph: " + nameBox.getText());
+			//println("Graph: " + nameBox.getText());
+			
+			
+			// temp testing code
+			if (namesInfo.findEntry(nameBox.getText()) != null ) {
+				println("Name " + nameBox.getText() + " exists.");
+
+				println("Graph: " + namesInfo.findEntry(nameBox.getText()).toString());
+				graph.addEntry(namesInfo.findEntry(nameBox.getText()) );
+			}
+			else {
+				println("Name " + nameBox.getText() + " doesn't exist.");
+
+			}
+			
 		}
 		else if (e.getSource() == nameBox) {
-			println("Graph: " + nameBox.getText());
+			//println("Graph: " + nameBox.getText());
+			
+			/*temp testing code
+			if (namesInfo.findEntry(nameBox.getText()) != null ) {
+				println("Name " + nameBox.getText() + " exists.");
+
+				println("Graph: " + namesInfo.findEntry(nameBox.getText()).toString());
+			}
+			else {
+				println("Name " + nameBox.getText() + " doesn't exist.");
+
+			}
+			*/
 		}
-	
+
 	}
 
-/********** helper and sub methods
- * 
- * 
- */
+	/********** helper and sub methods
+	 * 
+	 * 
+	 */
 	private void addClearButton() {
 		// make the "clear" button
 		clearButton = new JButton("Clear");
@@ -69,7 +126,7 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	}
 
 	private void addNameBox() {
-		// TODO Auto-generated method stub
+		// Add the empty box for user-entered text
 		nameBox = new JTextField(25);
 		nameBox.addActionListener(this);
 		add (nameBox, SOUTH);
@@ -80,4 +137,9 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	private JTextField nameBox;
 	private JButton graphButton;
 	private JButton clearButton;
+
+	private static final String fileName = "names-data.txt";
+	private NameSurferDataBase namesInfo;
+	
+	private NameSurferGraph graph;
 }
