@@ -100,24 +100,58 @@ implements NameSurferConstants, ComponentListener {
 	}
 	private void graphNameData() {
 		// TODO Auto-generated method stub
-		// Set the beginning x coordinate
-		//int xStart = GRAPH_MARGIN_SIZE;
-		// Set the beginning y coordinate
-		//String thisName = 
-		//System.out.println("The rank for the first decade is: " + nameToDraw.findEntry(name).getRank()	);
-		//int yStart = nameToDraw.
 		
+		//Add the points for the popularity data on the vertical decade lines for the graph
+		int xPosition = GRAPH_MARGIN_SIZE; 
+		int verticalLineSpacing = APPLICATION_WIDTH/NDECADES;
+/*
+		for (int j = 0; i< NDECADES; j++) {
+			
+			// small rect at the datapoint
+			double ranking = .01*nameToDraw.get(i).getRank(0);
+			GRect secondRect = new GRect( xPosition, topLineY + (ranking * (bottomLineY - topLineY)), 5, 5);
+			secondRect.setFilled(true);
+			secondRect.setFillColor(Color.GREEN);
+			add(secondRect);
+			
+			//GLine verticalLine = new GLine( xPosition, APPLICATION_HEIGHT, xPosition, 0);
+			//add(verticalLine);
+			GLabel decadeLabel = new GLabel(nameToDraw.get(i).getName(), xPosition, ranking * (bottomLineY - topLineY));
+			add(decadeLabel);
+			xPosition += verticalLineSpacing;
+		}
+	*/	
 		// Debugging show me the names in the nameToDraw ArrayList
+		// For each name in the nameToDraw ArrayList, plot the popularity points on the vertical bars
 		for (int i=0; i< nameToDraw.size(); i++) {
 			System.out.println(nameToDraw.get(i));
 			System.out.println("graphing this name: " + nameToDraw.get(i).getName() + " which has the first decade popularity rank of " + nameToDraw.get(i).getRank(0));
 
+			// Draw the datapoints for this name
+			for (int j = 0; j< NDECADES; j++) {
+				xPosition = GRAPH_MARGIN_SIZE + j*(verticalLineSpacing); 
+				// small rect at the datapoint
+				double ranking = .001*nameToDraw.get(i).getRank(j);
+				GRect secondRect = new GRect( xPosition, topLineY + (ranking * (bottomLineY - topLineY)), 5, 5);
+				secondRect.setFilled(true);
+				secondRect.setFillColor(Color.GREEN);
+				add(secondRect);
+				
+				//GLine verticalLine = new GLine( xPosition, APPLICATION_HEIGHT, xPosition, 0);
+				//add(verticalLine);
+				GLabel decadeLabel = new GLabel(nameToDraw.get(i).getName(), xPosition, ranking * (bottomLineY - topLineY));
+				add(decadeLabel);
+			}
+			
+			
 		}
 	}
 	
 	
 	// Private Instance variables
 	private ArrayList<NameSurferEntry> nameToDraw;
+	private int topLineY = GRAPH_MARGIN_SIZE;
+	private int bottomLineY = APPLICATION_HEIGHT - 4*GRAPH_MARGIN_SIZE;
 
 
 	/* Implementation of the ComponentListener interface */

@@ -79,7 +79,7 @@ public class NameSurfer extends Program implements NameSurferConstants {
 				graph.addEntry(namesInfo.findEntry(nameBox.getText()) );
 			}
 			else {
-				println("Name " + nameBox.getText() + " doesn't exist.");
+				println("Name " + nameBox.getText() + " isn't in the database.");
 
 			}
 			
