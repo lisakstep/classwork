@@ -1,8 +1,15 @@
 /*
  * File: NameSurfer.java
  * ---------------------
- * When it is finished, this program will implements the viewer for
- * the baby-name database described in the assignment handout.
+ * When it is finished, this program will implement the viewer for
+ * the baby-name database described in the Stanford CS106a assignment handout.
+ * 
+ * 
+ * @author Lisa Stephens
+ * completed June 1, 2014
+ * 
+ * 
+ *
  */
 
 import acm.program.*;
@@ -17,19 +24,15 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	 * and initializing the interactors at the top of the window.
 	 */
 	public void init() {
-		// You fill this in, along with any helper methods //
 		// Read the data text file and load up the local database
 		initData();
-		
-		
-		
+
 		// Create the labels and the textbox
 		addNameLabel();
 		addNameBox();
 		addGraphButton();
 		addClearButton();
-		
-		//add ActionListeners();
+
 		// Set up the graph object
 		graph = new NameSurferGraph();
 		add(graph);
@@ -37,23 +40,9 @@ public class NameSurfer extends Program implements NameSurferConstants {
 	}
 
 	private void initData() {
-		// TODO Auto-generated method stub
+		// Set up the database from the provided data file
 		namesInfo = new NameSurferDataBase(fileName);
-		
-		/* temp testin code
-		String testName = "Tabitha";
-		int testDecade = 6;
-		if (namesInfo.findEntry(testName) != null ) {
-			println("Name " + testName + " exists.");
 
-			println(namesInfo.findEntry(testName).toString());
-			println(namesInfo.findEntry(testName).getRank(testDecade));
-		}
-		else {
-			println("Name " + testName + " doesn't exist.");
-
-		}
-		*/
 	}
 
 	/* Method: actionPerformed(e) */
@@ -67,39 +56,15 @@ public class NameSurfer extends Program implements NameSurferConstants {
 		if (e.getSource() == clearButton) {
 			graph.clear();
 		}
-		else if (e.getSource() == graphButton) {
-			//println("Graph: " + nameBox.getText());
-			
-			
-			// temp testing code
+		else if ( (e.getSource() == graphButton) || (e.getSource() == nameBox) ) {			
+			// If the name is in the database, add it to the graph
 			if (namesInfo.findEntry(nameBox.getText()) != null ) {
-				println("Name " + nameBox.getText() + " exists.");
-
-				println("Graph: " + namesInfo.findEntry(nameBox.getText()).toString());
 				graph.addEntry(namesInfo.findEntry(nameBox.getText()) );
 			}
 			else {
 				println("Name " + nameBox.getText() + " isn't in the database.");
-
 			}
-			
 		}
-		else if (e.getSource() == nameBox) {
-			//println("Graph: " + nameBox.getText());
-			
-			/*temp testing code
-			if (namesInfo.findEntry(nameBox.getText()) != null ) {
-				println("Name " + nameBox.getText() + " exists.");
-
-				println("Graph: " + namesInfo.findEntry(nameBox.getText()).toString());
-			}
-			else {
-				println("Name " + nameBox.getText() + " doesn't exist.");
-
-			}
-			*/
-		}
-
 	}
 
 	/********** helper and sub methods
@@ -140,6 +105,6 @@ public class NameSurfer extends Program implements NameSurferConstants {
 
 	private static final String fileName = "names-data.txt";
 	private NameSurferDataBase namesInfo;
-	
+
 	private NameSurferGraph graph;
 }

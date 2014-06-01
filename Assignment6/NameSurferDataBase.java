@@ -12,6 +12,10 @@ import java.util.HashMap;
  * name and get back the corresponding NameSurferEntry.
  * Names are matched independent of case, so that "Eric"
  * and "ERIC" are the same names.
+ * 
+ * @author Lisa Stephens
+ * completed June 1, 2014
+ * 
  */
 
 public class NameSurferDataBase implements NameSurferConstants {
@@ -49,7 +53,6 @@ public class NameSurferDataBase implements NameSurferConstants {
 	 * occurs as the file is being read.
 	 */
 	public NameSurferDataBase(String filename) {
-		// You fill this in //
 
 		myData = new HashMap<String, NameSurferEntry>();
 
@@ -63,7 +66,6 @@ public class NameSurferDataBase implements NameSurferConstants {
 	 * method returns null.
 	 */
 	public NameSurferEntry findEntry(String name) {
-		// You need to turn this stub into a real implementation //
 		name = name.toUpperCase();
 		if (myData.containsKey(name) ) {
 			return myData.get(name);}

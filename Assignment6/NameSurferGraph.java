@@ -5,6 +5,10 @@
  * names is drawn. This class is responsible for updating
  * (redrawing) the graphs whenever the list of entries changes
  * or the window is resized.
+ * 
+ * @author Lisa Stephens
+ * completed June 1, 2014
+ * 
  */
 
 import acm.graphics.*;
@@ -52,7 +56,7 @@ implements NameSurferConstants, ComponentListener {
 			decadeName += 10;
 			xPosition += verticalLineSpacing;
 		}
-		
+
 	}
 
 
@@ -60,10 +64,11 @@ implements NameSurferConstants, ComponentListener {
 	 * Clears the list of name surfer entries stored inside this class.
 	 */
 	public void clear() {
-		// You fill this in //
 		// Empty out the nameToDraw ArrayList
 		nameToDraw.clear();
-		System.out.println("clearing out the names");
+		// Clear the graphics canvas
+		removeAll();
+		// Redraw the grids
 		update();
 	}
 
@@ -75,7 +80,6 @@ implements NameSurferConstants, ComponentListener {
 	 * simply stores the entry; the graph is drawn by calling update.
 	 */
 	public void addEntry(NameSurferEntry entry) {
-		// You fill this in //
 		nameToDraw.add(entry);
 		update();
 	}
@@ -89,9 +93,12 @@ implements NameSurferConstants, ComponentListener {
 	 * the size of the canvas changes.
 	 */
 	public void update() {
+		// empty the field
+		removeAll();
+
 		// Start by drawing the background grid and labels
 		drawGridWithLabels();
-		
+
 		// Now add all the name/decade data to the graph
 		if ( !nameToDraw.isEmpty() ){
 			graphNameData();
@@ -99,55 +106,73 @@ implements NameSurferConstants, ComponentListener {
 
 	}
 	private void graphNameData() {
-		// TODO Auto-generated method stub
-		
 		//Add the points for the popularity data on the vertical decade lines for the graph
-		int xPosition = GRAPH_MARGIN_SIZE; 
+		int xPosition1 = GRAPH_MARGIN_SIZE; 
+		int xPosition2 = GRAPH_MARGIN_SIZE;
+		double yPosition2 = bottomLineY;
 		int verticalLineSpacing = APPLICATION_WIDTH/NDECADES;
-/*
-		for (int j = 0; i< NDECADES; j++) {
-			
-			// small rect at the datapoint
-			double ranking = .01*nameToDraw.get(i).getRank(0);
-			GRect secondRect = new GRect( xPosition, topLineY + (ranking * (bottomLineY - topLineY)), 5, 5);
-			secondRect.setFilled(true);
-			secondRect.setFillColor(Color.GREEN);
-			add(secondRect);
-			
-			//GLine verticalLine = new GLine( xPosition, APPLICATION_HEIGHT, xPosition, 0);
-			//add(verticalLine);
-			GLabel decadeLabel = new GLabel(nameToDraw.get(i).getName(), xPosition, ranking * (bottomLineY - topLineY));
-			add(decadeLabel);
-			xPosition += verticalLineSpacing;
-		}
-	*/	
-		// Debugging show me the names in the nameToDraw ArrayList
+
 		// For each name in the nameToDraw ArrayList, plot the popularity points on the vertical bars
 		for (int i=0; i< nameToDraw.size(); i++) {
-			System.out.println(nameToDraw.get(i));
-			System.out.println("graphing this name: " + nameToDraw.get(i).getName() + " which has the first decade popularity rank of " + nameToDraw.get(i).getRank(0));
 
 			// Draw the datapoints for this name
 			for (int j = 0; j< NDECADES; j++) {
-				xPosition = GRAPH_MARGIN_SIZE + j*(verticalLineSpacing); 
-				// small rect at the datapoint
+
+
+				xPosition1 = GRAPH_MARGIN_SIZE + j*(verticalLineSpacing); 
+				double yPosition1 = 0.0;
+				Color dataColor = Color.orange;
+
 				double ranking = .001*nameToDraw.get(i).getRank(j);
-				GRect secondRect = new GRect( xPosition, topLineY + (ranking * (bottomLineY - topLineY)), 5, 5);
+
+				// If the ranking is 0, place the line point at the bottom of the graph
+				if (ranking == 0) {
+					yPosition1 = bottomLineY;
+				}
+				else {
+					yPosition1 = topLineY + (ranking * (bottomLineY - topLineY));
+				}
+
+
+				// Rotate through four colors to differentiate the data lines and labels
+				if (i%4 == 0 ) {
+					dataColor = Color.blue;
+				} else if( i%4 == 1) {
+					dataColor = Color.green;
+				}else if( i%4 == 2) {
+					dataColor = Color.red;
+				}else if( i%4 == 3) {
+					dataColor = Color.magenta;
+				}
+
+				// draw a small rect at the datapoint
+				GRect secondRect = new GRect( xPosition1, yPosition1, 3, 3);
 				secondRect.setFilled(true);
-				secondRect.setFillColor(Color.GREEN);
+				secondRect.setFillColor(dataColor);
 				add(secondRect);
-				
-				//GLine verticalLine = new GLine( xPosition, APPLICATION_HEIGHT, xPosition, 0);
-				//add(verticalLine);
-				GLabel decadeLabel = new GLabel(nameToDraw.get(i).getName(), xPosition, ranking * (bottomLineY - topLineY));
+
+				// Set up and draw the label next to the data point
+				GLabel decadeLabel = new GLabel(nameToDraw.get(i).getName(), xPosition1, yPosition1);
+				decadeLabel.setColor(dataColor);
 				add(decadeLabel);
+
+				if (j>0) {
+					// Once there are at least two data points, define and draw the line
+					GLine lineSegment = new GLine( xPosition1, yPosition1, xPosition2, yPosition2);
+					lineSegment.setColor(dataColor);
+					add(lineSegment);
+				}
+
+				// set the endpoint for the new line segment
+				xPosition2 = xPosition1;
+				yPosition2 = yPosition1;
+
 			}
-			
-			
+
 		}
 	}
-	
-	
+
+
 	// Private Instance variables
 	private ArrayList<NameSurferEntry> nameToDraw;
 	private int topLineY = GRAPH_MARGIN_SIZE;

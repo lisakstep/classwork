@@ -4,6 +4,8 @@
  * This file declares several constants that are shared by the
  * different modules in the NameSurfer application.  Any class
  * that implements this interface can use these constants.
+ * 
+ * This entire file provided by Stanford
  */
 
 public interface NameSurferConstants {

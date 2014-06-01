@@ -4,10 +4,14 @@
  * This class represents a single entry in the database.  Each
  * NameSurferEntry contains a name and a list giving the popularity
  * of that name for each decade stretching back to 1900.
+ * 
+ * @author Lisa Stephens
+ * completed June 1, 2014
+ * 
  */
 
-import acm.util.*;
-import java.util.*;
+//import acm.util.*;
+//import java.util.*;
 
 public class NameSurferEntry implements NameSurferConstants {
 
@@ -19,7 +23,7 @@ public class NameSurferEntry implements NameSurferConstants {
 	 * decade.
 	 */
 	public NameSurferEntry(String line) {
-		// You fill this in //
+		// Set up the form of the NameSurferEntry and initialize
 		name = "Empty";
 		for (int i = 0; i< NDECADES; i++) {
 			decade[i] = 0; 
@@ -37,7 +41,6 @@ public class NameSurferEntry implements NameSurferConstants {
 		// by decade rank number
 
 		String[] tokens = line.split("[ ]+");
-
 
 		if (tokens.length > 1) {
 			// The first token is the name
@@ -85,7 +88,7 @@ public class NameSurferEntry implements NameSurferConstants {
 	 * NameSurferEntry.
 	 */
 	public String toString() {
-		// You need to turn this stub into a real implementation //
+		// Return the contents of the NameSurferEntry
 		String entry = name;
 		for (int i = 0; i< NDECADES; i++) {
 			entry = entry + " " + decade[i]; }
